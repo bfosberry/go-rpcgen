@@ -127,16 +127,12 @@ func (s *ServerCodec) WriteResponse(resp *rpc.Response, obj interface{}) error {
 		return err
 	}
 
-	if resp.Error == "" {
-		pb, ok := obj.(proto.Message)
-		if !ok {
-			return fmt.Errorf("%T does not implement proto.Message", obj)
-		}
-
-		return WriteProto(s.w, pb)
+        pb, ok := obj.(proto.Message)
+	if !ok {
+		return fmt.Errorf("%T does not implement proto.Message", obj)
 	}
 
-	return nil
+        return WriteProto(s.w, pb)
 }
 
 // Close closes the underlying conneciton.
